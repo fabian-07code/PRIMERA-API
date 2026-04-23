@@ -23,7 +23,7 @@ namespace PRIMERA_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tabla2>>> Get()
         {
-            var resultado  = _db.tabla2.ToListAsync();
+            var resultado = _db.tabla2.ToListAsync();
 
             return Ok(new { exito = true, resultado });
 
@@ -38,20 +38,49 @@ namespace PRIMERA_API.Controllers
 
         // POST api/<Tabla2Controller>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] Tabla2 registro)
         {
+            _db.tabla2.Add(registro);
+            await _db.SaveChangesAsync();
+            return CreatedAtAction(nameof(Get), new { id = registro.Id },
+                new
+                {
+                    Ok = true,
+                    Message = "Registro creado exitosamente",
+                    Data = registro
+                });
         }
 
         // PUT api/<Tabla2Controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Tabla2 registro)
         {
+            var consulta = await _db.tabla2.FindAsync(id);
+        
+            consulta.Color = registro.Color;
+            await _db.SaveChangesAsync();
+            return Ok(new
+            {
+                Ok = true,
+                Message = "Registro actualizado exitosamente",
+                Data = consulta
+            });
         }
 
         // DELETE api/<Tabla2Controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var registro = await _db.tabla2.FindAsync(id);
+            if (registro == null)
+            {
+                return NotFound();
+            }
+
+            _db.tabla2.Remove(registro);
+            await _db.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
