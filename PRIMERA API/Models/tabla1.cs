@@ -6,6 +6,11 @@
         public string Nombre { get; set; }
 
         public string Apellido { get; set; }
-       
+
+        public int Cantidad { get; set; }
+
+
+        public string Descripcion { get; set; }
+
     }
 }

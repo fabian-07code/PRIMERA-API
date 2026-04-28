@@ -30,10 +30,21 @@ namespace PRIMERA_API.Controllers
         }
 
         // GET api/<Tabla2Controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+      [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var consulta = await _db.tabla2.FindAsync(id);
+            if (consulta == null)
+            {
+                return NotFound();
+            }
+            return Ok(new
+            {
+                Ok = true,
+                Message = "Consulta realizada exitosamente",
+                Data = consulta
+            });
+
         }
 
         // POST api/<Tabla2Controller>
@@ -56,7 +67,7 @@ namespace PRIMERA_API.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] Tabla2 registro)
         {
             var consulta = await _db.tabla2.FindAsync(id);
-        
+
             consulta.Color = registro.Color;
             await _db.SaveChangesAsync();
             return Ok(new
@@ -81,6 +92,36 @@ namespace PRIMERA_API.Controllers
             await _db.SaveChangesAsync();
 
             return NoContent();
+        }
+
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> Patchtabla2(int id, [FromBody] Dictionary<string, object> cambios)
+        {
+            var consulta = await _db.tabla2.FindAsync(id);
+            foreach (var campo in cambios)
+            {
+                switch (campo.Key.ToLower())
+                {
+                    case "color":
+                        consulta.Color = campo.Value.ToString();
+                        break;
+                    case "descripcion":
+                        consulta.Descripcion = campo.Value.ToString();
+                        break;
+
+                }
+                    
+
+            }
+            await _db.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Ok = true,
+                Message = "Registro actualizado exitosamente",
+                Data = consulta
+            });
         }
     }
 }

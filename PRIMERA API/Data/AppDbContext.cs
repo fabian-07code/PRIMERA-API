@@ -16,15 +16,15 @@ namespace PRIMERA_API.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<tabla1>().HasData(
-                new tabla1 { Id = 1, Nombre = "Fabian", Apellido = "Garcia" },
-                new tabla1 { Id = 2, Nombre = "Paula", Apellido = "Dominguez" },
-                new tabla1 { Id = 3, Nombre = "Dilan", Apellido = "Cruz" }
+                new tabla1 { Id = 1, Nombre = "Fabian", Apellido = "Garcia",Cantidad= 1, Descripcion = "Descripcion 1" },
+                new tabla1 { Id = 2, Nombre = "Paula", Apellido = "Dominguez",Cantidad= 2, Descripcion = "Descripcion 2" },
+                new tabla1 { Id = 3, Nombre = "Dilan", Apellido = "Cruz",Cantidad= 3, Descripcion = "Descripcion 3" }
             );
 
             modelBuilder.Entity<Tabla2>().HasData(
-                new Tabla2 { Id = 1, Color = "Rojo" },
-                new Tabla2 { Id = 2, Color = "Verde" },
-                new Tabla2 { Id = 3, Color = "Azul" }
+                new Tabla2 { Id = 1, Color = "Rojo", Descripcion = "Descripcion Rojo" },
+                new Tabla2 { Id = 2, Color = "Verde", Descripcion = "Descripcion Verde" },
+                new Tabla2 { Id = 3, Color = "Azul", Descripcion = "Descripcion Azul" }
             );
 
         }
